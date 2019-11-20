@@ -35,4 +35,26 @@ def find_artist_albums()
   return result.map{|disk| Album.new(disk)}
 end
 
+def edit(new_name)
+  sql = "UPDATE artist_list SET name = $1 WHERE id = $2"
+  values = [new_name, @id]
+  SqlRunner.run(sql, values)
+end
+
+
+def self.find_artist_by_id(id)
+  sql = "SELECT * FROM artist_list WHERE id = $1"
+  values = [id]
+  result = SqlRunner.run(sql, values)
+  return Artist.new(result[0])
+end
+
+def delete_artist()
+  Album.delete_by_artist_id(@id)
+  sql = "DELETE FROM artist_list WHERE id = $1"
+  values =[@id]
+  SqlRunner.run(sql, values)
+end
+
+
 end
