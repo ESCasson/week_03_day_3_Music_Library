@@ -27,7 +27,14 @@ end
 def self.list_all()
   sql = "SELECT * FROM album_list"
   result = SqlRunner.run(sql)
-  return result.map{|artist| Album.new(artist)}
+  return result.map{|album| Album.new(album)}
+end
+
+def get_artist()
+  sql = "SELECT * FROM artist_list WHERE id = $1"
+  values = [@artist_id]
+  result = SqlRunner.run(sql, values)
+  return Artist.new(result[0])
 end
 
 
